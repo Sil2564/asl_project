@@ -8,4 +8,4 @@ num_epochs = 10
 model = SimpleCNN(num_classes=10)  # 10 classi per il dataset MNIST
 
 # Avvia il training
-train(model, num_epochs)
+train(model, criterion, optimizer, num_epochs)

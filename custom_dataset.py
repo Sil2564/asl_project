@@ -2,13 +2,13 @@ import os
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-def get_dataloaders(data_dir='dataset', batch_size=32, image_size=64):
+def get_dataloaders(data_dir='dataset', batch_size=32, image_size=32):
     # Trasformazioni da applicare alle immagini
     transform = transforms.Compose([
-        transforms.Resize((image_size, image_size)),  # Ridimensiona tutte le immagini
-        transforms.Lambda(lambda x: x.convert("RGB")),  # Forza la conversione in RGB
+        transforms.Grayscale(num_output_channels=1),  # Forza scala di grigi
+        transforms.Resize((image_size, image_size)),  # Uniforma a 32x32
         transforms.ToTensor(),  # Converte in tensore PyTorch
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalizzazione tra -1 e 1
+        transforms.Normalize((0.5,), (0.5,))  # Normalizza tra -1 e 1 per 1 canale
     ])
 
     # Crea dataset

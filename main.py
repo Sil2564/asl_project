@@ -1,11 +1,20 @@
+from cnn_model import CNN
 from train import train
-from cnn_model import SimpleCNN
+import torch
+import torch.nn as nn
+import torch.optim as optim
 
-# Impostazioni
+# Istanzia il modello
+model = CNN()
+
+# Definisci la funzione di perdita
+criterion = nn.CrossEntropyLoss()
+
+# Definisci l'ottimizzatore
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# Numero di epoche
 num_epochs = 10
-
-# Crea il modello
-model = SimpleCNN(num_classes=10)  # 10 classi per il dataset MNIST
 
 # Avvia il training
 train(model, criterion, optimizer, num_epochs)

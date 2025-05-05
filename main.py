@@ -4,6 +4,19 @@ from train import train
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from PIL import Image
+
+# Percorso di esempio per un'immagine
+img_path = r'C:\Users\busti\Desktop\asl_project\dataset\test\B\B1.jpg'
+
+# Carica l'immagine
+img = Image.open(img_path)
+
+# Mostra il tipo di immagine (L per scala di grigi, RGB per colori)
+print(f"Tipo di immagine: {img.mode}")
+
+# (Facoltativo) Mostra l'immagine
+img.show()
 
 # Ottieni i DataLoader
 train_loader, val_loader, test_loader = get_dataloaders(data_dir='dataset', batch_size=64, image_size=64)

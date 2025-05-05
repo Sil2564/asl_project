@@ -1,6 +1,7 @@
 import os
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+from PIL import Image
 
 def get_dataloaders(data_dir='dataset', batch_size=32, image_size=64):
     # Trasformazioni da applicare alle immagini
@@ -10,10 +11,17 @@ def get_dataloaders(data_dir='dataset', batch_size=32, image_size=64):
         transforms.Normalize((0.5,), (0.5,))  # Normalizzazione tra -1 e 1
     ])
 
-    # Crea dataset
-    train_dataset = datasets.ImageFolder(os.path.join(data_dir, 'train'), transform=transform)
-    val_dataset = datasets.ImageFolder(os.path.join(data_dir, 'val'), transform=transform)
-    test_dataset = datasets.ImageFolder(os.path.join(data_dir, 'test'), transform=transform)
+    # Funzione per garantire che le immagini siano RGB
+    def rgb_loader(path):
+        img = Image.open(path)
+        if img.mode != 'RGB':  # Se l'immagine non è RGB, convertila
+            img = img.convert('RGB')
+        return img
+
+    # Crea dataset con il loader personalizzato che assicura l'uso di immagini RGB
+    train_dataset = datasets.ImageFolder(os.path.join(data_dir, 'train'), transform=transform, loader=rgb_loader)
+    val_dataset = datasets.ImageFolder(os.path.join(data_dir, 'val'), transform=transform, loader=rgb_loader)
+    test_dataset = datasets.ImageFolder(os.path.join(data_dir, 'test'), transform=transform, loader=rgb_loader)
 
     # Crea DataLoader
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)

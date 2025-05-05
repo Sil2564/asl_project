@@ -6,7 +6,7 @@ class SimpleCNN(nn.Module):
     def __init__(self, num_classes=26):  # Numero di classi nel dataset ASL (alfabeto inglese)
         super(SimpleCNN, self).__init__()
 
-        # Strato convoluzionale 1 (modificato per 3 canali)
+        # Strato convoluzionale 1 (modifica: ora accettiamo immagini RGB)
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1, padding=1)
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
 
@@ -33,3 +33,4 @@ class SimpleCNN(nn.Module):
         # Passaggio attraverso l'ultimo strato completamente connesso (output)
         x = self.fc2(x)
         return x
+

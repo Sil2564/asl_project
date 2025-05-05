@@ -37,3 +37,7 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 # Avvio training
 train(model, train_loader, criterion, optimizer, num_epochs, device)
+from train import evaluate  # in alto, insieme agli altri import
+
+# Valutazione sul test set
+evaluate(model, test_loader, criterion, device)

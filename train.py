@@ -31,29 +31,24 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
 # Funzione di addestramento
 def train(model, train_loader, criterion, optimizer, num_epochs):
-    model.train()  # Imposta il modello in modalità addestramento
+    model.train()
+    
     for epoch in range(num_epochs):
-        running_loss = 0.0
-        for i, (inputs, labels) in enumerate(train_loader, 0):
-            inputs, labels = inputs.to(device), labels.to(device)
+        for i, (images, labels) in enumerate(train_loader):
+            # Aggiungi questa riga per stampare le dimensioni
+            print(f"Batch {i+1}: Input batch size = {images.size(0)}, Labels batch size = {labels.size(0)}")
             
-            # Azzerare i gradienti
-            optimizer.zero_grad()
-            
-            # Passaggio in avanti
-            outputs = model(inputs)
+            # Calcolo della perdita (loss)
+            outputs = model(images)
             loss = criterion(outputs, labels)
             
-            # Calcolo dei gradienti
+            # Aggiorna i pesi del modello
+            optimizer.zero_grad()
             loss.backward()
-            
-            # Ottimizzazione
             optimizer.step()
+        
+        print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}")
 
-            running_loss += loss.item()
-            if i % 100 == 99:  # Ogni 100 mini-batch, stampiamo la perdita
-                print(f"Epoch [{epoch+1}/{num_epochs}], Step [{i+1}/{len(train_loader)}], Loss: {running_loss / 100:.4f}")
-                running_loss = 0.0
 
 # Avvio dell'addestramento
 train(model, train_loader, criterion, optimizer, num_epochs)

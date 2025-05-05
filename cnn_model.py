@@ -18,6 +18,10 @@ class SimpleCNN(nn.Module):
         self.fc2 = nn.Linear(128, num_classes)  # Il numero di classi è 26 (alfabeto ASL)
 
     def forward(self, x):
+        # Se l'immagine ha solo un canale (grayscale), la convertiamo in 3 canali
+        if x.size(1) == 1:  # Verifica se il numero di canali è 1 (grayscale)
+            x = x.repeat(1, 3, 1, 1)  # Copia il canale per ottenere 3 canali (RGB)
+
         # Passaggio attraverso il primo strato convoluzionale + attivazione ReLU
         x = self.pool(torch.relu(self.conv1(x)))
 
@@ -33,4 +37,3 @@ class SimpleCNN(nn.Module):
         # Passaggio attraverso l'ultimo strato completamente connesso (output)
         x = self.fc2(x)
         return x
-

@@ -6,7 +6,7 @@ def get_dataloaders(data_dir='dataset', batch_size=32, image_size=64):
     # Trasformazioni da applicare alle immagini
     transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),  # Ridimensiona tutte le immagini
-        transforms.Grayscale(num_output_channels=3),  # Forza la conversione in RGB
+        transforms.Lambda(lambda x: x.convert("RGB")),  # Forza la conversione in RGB
         transforms.ToTensor(),  # Converte in tensore PyTorch
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # Normalizzazione tra -1 e 1
     ])

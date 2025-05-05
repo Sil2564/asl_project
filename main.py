@@ -1,43 +1,39 @@
 from custom_dataset import get_dataloaders
 from cnn_model import SimpleCNN
-from train import train
+from train import train, evaluate
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from PIL import Image
-
-# Percorso immagine per debug
-img_path = r'C:\Users\busti\Desktop\asl_project\dataset\test\B\B1.jpg'
-img = Image.open(img_path)
-print(f"Tipo di immagine: {img.mode}")
-img.show()
+import os
 
 # Parametri
 batch_size = 64
 num_epochs = 10
 learning_rate = 0.001
-image_size = 32  # ⬅️ Modificato da 64 a 32
+image_size = 32  # Immagini ridimensionate a 32x32
+num_classes = 29
+model_save_path = "asl_cnn.pth"  # Percorso file per salvare il modello
 
-# Dataset
-train_loader, val_loader, test_loader = get_dataloaders(data_dir='dataset', batch_size=batch_size, image_size=image_size)
+# Caricamento dataset
+train_loader, val_loader, test_loader = get_dataloaders(
+    data_dir='dataset',
+    batch_size=batch_size,
+    image_size=image_size
+)
 
-# Debug primo batch
-for images, labels in train_loader:
-    print(f"Dimensioni batch immagini: {images.shape}")  # [64, 1, 32, 32] atteso
-    print(f"Dimensioni batch etichette: {labels.shape}")  # [64]
-    break
-
-# Modello e addestramento
+# Inizializzazione modello e setup
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = SimpleCNN(num_classes=29)  # ⬅️ Confermato num_classes=29
-model.to(device)
+model = SimpleCNN(num_classes=num_classes).to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-# Avvio training
+# Addestramento
 train(model, train_loader, criterion, optimizer, num_epochs, device)
-from train import evaluate  # in alto, insieme agli altri import
 
-# Valutazione sul test set
+# Salvataggio modello
+torch.save(model.state_dict(), model_save_path)
+print(f"✅ Modello salvato in: {model_save_path}")
+
+# Valutazione finale
 evaluate(model, test_loader, criterion, device)

@@ -1,11 +1,11 @@
-from cnn_model import CNN
+from cnn_model import SimpleCNN
 from train import train
 import torch
 import torch.nn as nn
 import torch.optim as optim
 
 # Istanzia il modello
-model = CNN()
+model = SimpleCNN()
 
 # Definisci la funzione di perdita
 criterion = nn.CrossEntropyLoss()
@@ -18,3 +18,4 @@ num_epochs = 10
 
 # Avvia il training
 train(model, criterion, optimizer, num_epochs)
+

@@ -21,6 +21,14 @@ img.show()
 # Ottieni i DataLoader
 train_loader, val_loader, test_loader = get_dataloaders(data_dir='dataset', batch_size=64, image_size=64)
 
+# Verifica il primo batch di immagini e etichette
+for images, labels in train_loader:
+    print(f"Dimensione delle immagini: {images.size()}")  # Questo ti mostrerà la dimensione delle immagini
+    print(f"Dimensione delle etichette: {labels.size()}")  # Questo ti mostrerà la dimensione delle etichette
+    break  # Stoppo il ciclo dopo il primo batch per non stampare troppe informazioni
+
+print("Verifica completata, puoi ora avviare l'addestramento separatamente quando vuoi.")
+
 # Istanzia il modello
 model = SimpleCNN()
 

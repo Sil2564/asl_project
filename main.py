@@ -7,17 +7,11 @@ import torch.nn as nn
 import torch.optim as optim
 from PIL import Image
 
-# Percorso immagine per debug
-img_path = r'C:\Users\busti\Desktop\asl_project\dataset\test\B\B1.jpg'
-img = Image.open(img_path)
-print(f"Tipo di immagine: {img.mode}")
-img.show()
-
 # Parametri
 batch_size = 64
 num_epochs = 10
 learning_rate = 0.001
-image_size = 32
+image_size = 64
 model_path = "modello_asl.pth"
 
 # Dataset
@@ -49,3 +43,4 @@ else:
 
 # Valutazione
 evaluate(model, test_loader, criterion, device)
+print("✅ Valutazione completata.")

@@ -19,6 +19,10 @@ class SimpleCNN(nn.Module):
     def forward(self, x):
         x = self.pool(torch.relu(self.conv1(x)))
         x = self.pool(torch.relu(self.conv2(x)))
+
+        # Aggiungi la riga di debug per vedere la forma dell'output
+        print(x.shape)  # Aggiungi questa riga per vedere la dimensione
+
         x = x.view(-1, 64 * 8 * 8)
         x = torch.relu(self.fc1(x))
         x = self.fc2(x)

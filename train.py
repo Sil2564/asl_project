@@ -11,7 +11,13 @@ def train(model, train_loader, criterion, optimizer, num_epochs, device):
             images = images.to(device)
             labels = labels.to(device)
 
+            # Print per il debug delle dimensioni dei batch
             print(f"Batch {i+1}: Immagini = {images.size()}, Etichette = {labels.size()}")
+
+            # Controllo se le dimensioni dei batch corrispondono
+            if images.size(0) != labels.size(0):
+                print(f"⚠️ ERRORE: Immagini e Etichette hanno batch size diversi: {images.size(0)} != {labels.size(0)}")
+                continue  # Salta questo batch se c'è un mismatch
 
             optimizer.zero_grad()
             outputs = model(images)

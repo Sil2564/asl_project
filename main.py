@@ -11,8 +11,8 @@ from PIL import Image
 batch_size = 64
 num_epochs = 10
 learning_rate = 0.001
-image_size = 64
-model_path = "modello_asl.pth"
+image_size = 64  # 👈 Usa immagini 64×64
+model_path = "modello_asl_64.pth"  # 👈 Nuovo file modello
 
 # Dataset
 train_loader, val_loader, test_loader = get_dataloaders(data_dir='dataset', batch_size=batch_size, image_size=image_size)
